@@ -6,10 +6,28 @@ const LoginForm = ({ onClose }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login:", { email, password });
+
+    // Dummy authentication
+    if (email === "user@gmail.com" && password === "user123") {
+      // Save user to localStorage
+      const user = {
+        name: "User",
+        email: email,
+        avatar: "U",
+        joinDate: "2024",
+      };
+      localStorage.setItem("te-tome-user", JSON.stringify(user));
+
+      // Redirect to dashboard
+      onClose();
+      navigate("/dashboard");
+    } else {
+      setError("Email atau password salah");
+    }
   };
 
   return (
@@ -40,6 +58,12 @@ const LoginForm = ({ onClose }) => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
                 Email

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Gift, Coins, Star, ShoppingBag, CheckCircle, X } from "lucide-react";
 import { getUserPoints, getRewards, redeemReward } from "../utils/storage";
 
 const CheckPoin = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [userPoints, setUserPoints] = useState(0);
   const [rewards, setRewards] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -12,6 +13,15 @@ const CheckPoin = () => {
   const [selectedReward, setSelectedReward] = useState(null);
   const [redeemResult, setRedeemResult] = useState(null);
   const [showToast, setShowToast] = useState(false);
+
+  const handleBack = () => {
+    // Check if came from dashboard
+    if (location.state?.from === "/dashboard") {
+      navigate("/dashboard");
+    } else {
+      navigate("/home");
+    }
+  };
 
   useEffect(() => {
     setUserPoints(getUserPoints());
@@ -134,7 +144,7 @@ const CheckPoin = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => navigate("/home")}
+                onClick={handleBack}
                 className="p-2 hover:bg-white/5 rounded-xl transition-all duration-300"
               >
                 <svg

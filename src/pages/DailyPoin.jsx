@@ -1,9 +1,19 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Trophy, Medal, Award, TrendingUp, Crown } from "lucide-react";
 
 const DailyPoin = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleBack = () => {
+    // Check if came from dashboard
+    if (location.state?.from === "/dashboard") {
+      navigate("/dashboard");
+    } else {
+      navigate("/home");
+    }
+  };
 
   // Dummy leaderboard data
   const leaderboardData = [
@@ -82,7 +92,7 @@ const DailyPoin = () => {
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => navigate("/home")}
+              onClick={handleBack}
               className="p-2 hover:bg-white/5 rounded-xl transition-all duration-300"
             >
               <svg

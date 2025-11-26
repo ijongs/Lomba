@@ -16,6 +16,8 @@ const Navigation = ({ onLoginClick }) => {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +25,24 @@ const Navigation = ({ onLoginClick }) => {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const user = localStorage.getItem("te-tome-user");
+      if (user) {
+        setIsLoggedIn(true);
+        setUserData(JSON.parse(user));
+      } else {
+        setIsLoggedIn(false);
+        setUserData(null);
+      }
+    };
+    checkLoginStatus();
+
+    // Listen for storage changes
+    window.addEventListener("storage", checkLoginStatus);
+    return () => window.removeEventListener("storage", checkLoginStatus);
   }, []);
 
   const scrollToSection = (id) => {
@@ -126,16 +146,28 @@ const Navigation = ({ onLoginClick }) => {
 
           {/* Right Side */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={onLoginClick}
-              className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105 group"
-            >
-              <User
-                size={18}
-                className="group-hover:rotate-12 transition-transform"
-              />
-              <span>Login</span>
-            </button>
+            {isLoggedIn ? (
+              <button
+                onClick={() => navigate("/dashboard")}
+                className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105 group"
+              >
+                <div className="w-6 h-6 rounded-lg bg-white/20 flex items-center justify-center text-xs font-bold">
+                  {userData?.name?.charAt(0).toUpperCase() || "U"}
+                </div>
+                <span>{userData?.name || "User"}</span>
+              </button>
+            ) : (
+              <button
+                onClick={onLoginClick}
+                className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105 group"
+              >
+                <User
+                  size={18}
+                  className="group-hover:rotate-12 transition-transform"
+                />
+                <span>Login</span>
+              </button>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -181,16 +213,31 @@ const Navigation = ({ onLoginClick }) => {
                 <span className="font-medium">{item.label}</span>
               </button>
             ))}
-            <button
-              onClick={() => {
-                onLoginClick();
-                setIsMobileMenuOpen(false);
-              }}
-              className="w-full flex items-center gap-3 px-4 py-3 mt-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-emerald-500/50 transition-all duration-300"
-            >
-              <User size={20} />
-              <span>Login</span>
-            </button>
+            {isLoggedIn ? (
+              <button
+                onClick={() => {
+                  navigate("/dashboard");
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 mt-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-emerald-500/50 transition-all duration-300"
+              >
+                <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center text-sm font-bold">
+                  {userData?.name?.charAt(0).toUpperCase() || "U"}
+                </div>
+                <span>{userData?.name || "User"}</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  onLoginClick();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 mt-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-emerald-500/50 transition-all duration-300"
+              >
+                <User size={20} />
+                <span>Login</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
