@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import LoginForm from "../components/LoginForm";
 
-import backgroundImage from "../assets/Rectangle.png";
+import backgroundImage from "../assets/background2.png";
 import inputImg from "../assets/outbox.png";
 import dailyImg from "../assets/Group.png";
 import checkImg from "../assets/Credit card.png";
@@ -208,6 +208,280 @@ const Home = () => {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CARA KERJA SECTION */}
+      <section
+        id="cara-kerja"
+        className="relative w-full py-24 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden"
+      >
+        {/* Background Decorations */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20 relative z-10">
+          <div
+            data-aos="fade-down"
+            className="flex flex-col items-center mb-20 relative"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-wide bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent">
+              Cara Kerja
+            </h2>
+            <p className="text-slate-400 text-center max-w-2xl mt-2">
+              Ikuti 4 langkah mudah untuk memulai kontribusi Anda dalam menjaga
+              lingkungan
+            </p>
+            <div className="w-48 h-1 bg-gradient-to-r from-transparent via-emerald-500 to-transparent mt-6"></div>
+          </div>
+
+          {/* Steps with Connecting Lines */}
+          <div className="relative">
+            {/* Connecting Line - Hidden on Mobile */}
+            <div className="hidden lg:block absolute top-24 left-0 right-0 h-1">
+              <div className="absolute left-[12.5%] right-[12.5%] h-full">
+                <svg
+                  className="w-full h-full"
+                  preserveAspectRatio="none"
+                  viewBox="0 0 1000 20"
+                >
+                  <defs>
+                    <linearGradient
+                      id="line-gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="0%"
+                    >
+                      <stop
+                        offset="0%"
+                        style={{ stopColor: "#10b981", stopOpacity: 0.3 }}
+                      />
+                      <stop
+                        offset="50%"
+                        style={{ stopColor: "#10b981", stopOpacity: 0.8 }}
+                      />
+                      <stop
+                        offset="100%"
+                        style={{ stopColor: "#10b981", stopOpacity: 0.3 }}
+                      />
+                    </linearGradient>
+                  </defs>
+                  <path
+                    d="M 0 10 Q 250 0, 500 10 T 1000 10"
+                    stroke="url(#line-gradient)"
+                    strokeWidth="3"
+                    fill="none"
+                    strokeDasharray="10,5"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+              {/* Step 1 - Daftar & Login */}
+              <div
+                data-aos="fade-up"
+                data-aos-delay="100"
+                className="relative group"
+              >
+                <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-emerald-500/30 rounded-3xl p-8 hover:border-emerald-400/60 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/20">
+                  {/* Glow Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-emerald-600/0 group-hover:from-emerald-500/10 group-hover:to-emerald-600/5 rounded-3xl transition-all duration-500"></div>
+
+                  {/* Step Number Badge */}
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-500/50 group-hover:scale-110 transition-transform duration-300">
+                    1
+                  </div>
+
+                  {/* Icon */}
+                  <div className="relative mb-6 flex justify-center">
+                    <div className="w-20 h-20 bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-emerald-500/30">
+                      <svg
+                        className="w-10 h-10 text-emerald-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl font-bold mb-3 text-center text-white group-hover:text-emerald-300 transition-colors">
+                    Daftar & Login
+                  </h3>
+                  <p className="text-slate-400 leading-relaxed text-center text-sm group-hover:text-slate-300 transition-colors">
+                    Buat akun dengan email dan mulai perjalanan Anda menuju gaya
+                    hidup ramah lingkungan
+                  </p>
+
+                  {/* Arrow Indicator - Desktop Only */}
+                  <div className="hidden lg:flex absolute -right-8 top-1/2 -translate-y-1/2 text-emerald-500/50 group-hover:text-emerald-400 transition-colors">
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 2 - Input Sampah */}
+              <div
+                data-aos="fade-up"
+                data-aos-delay="200"
+                className="relative group"
+              >
+                <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-emerald-500/30 rounded-3xl p-8 hover:border-emerald-400/60 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/20">
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-emerald-600/0 group-hover:from-emerald-500/10 group-hover:to-emerald-600/5 rounded-3xl transition-all duration-500"></div>
+
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-500/50 group-hover:scale-110 transition-transform duration-300">
+                    2
+                  </div>
+
+                  <div className="relative mb-6 flex justify-center">
+                    <div className="w-20 h-20 bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-emerald-500/30">
+                      <img
+                        src={inputImg}
+                        alt="Input Sampah"
+                        className="w-10 h-10 object-contain"
+                      />
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl font-bold mb-3 text-center text-white group-hover:text-emerald-300 transition-colors">
+                    Input Sampah
+                  </h3>
+                  <p className="text-slate-400 leading-relaxed text-center text-sm group-hover:text-slate-300 transition-colors">
+                    Upload foto sampah plastik Anda dan dapatkan poin reward
+                    berdasarkan berat sampah
+                  </p>
+
+                  <div className="hidden lg:flex absolute -right-8 top-1/2 -translate-y-1/2 text-emerald-500/50 group-hover:text-emerald-400 transition-colors">
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3 - Kumpulkan Poin */}
+              <div
+                data-aos="fade-up"
+                data-aos-delay="300"
+                className="relative group"
+              >
+                <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-emerald-500/30 rounded-3xl p-8 hover:border-emerald-400/60 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/20">
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-emerald-600/0 group-hover:from-emerald-500/10 group-hover:to-emerald-600/5 rounded-3xl transition-all duration-500"></div>
+
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-500/50 group-hover:scale-110 transition-transform duration-300">
+                    3
+                  </div>
+
+                  <div className="relative mb-6 flex justify-center">
+                    <div className="w-20 h-20 bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-emerald-500/30">
+                      <svg
+                        className="w-10 h-10 text-emerald-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl font-bold mb-3 text-center text-white group-hover:text-emerald-300 transition-colors">
+                    Kumpulkan Poin
+                  </h3>
+                  <p className="text-slate-400 leading-relaxed text-center text-sm group-hover:text-slate-300 transition-colors">
+                    Setiap kontribusi Anda akan menghasilkan poin yang bisa
+                    ditukar dengan berbagai hadiah menarik
+                  </p>
+
+                  <div className="hidden lg:flex absolute -right-8 top-1/2 -translate-y-1/2 text-emerald-500/50 group-hover:text-emerald-400 transition-colors">
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 4 - Tukar Reward */}
+              <div
+                data-aos="fade-up"
+                data-aos-delay="400"
+                className="relative group"
+              >
+                <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-emerald-500/30 rounded-3xl p-8 hover:border-emerald-400/60 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/20">
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-emerald-600/0 group-hover:from-emerald-500/10 group-hover:to-emerald-600/5 rounded-3xl transition-all duration-500"></div>
+
+                  <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-emerald-500/50 group-hover:scale-110 transition-transform duration-300">
+                    4
+                  </div>
+
+                  <div className="relative mb-6 flex justify-center">
+                    <div className="w-20 h-20 bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-emerald-500/30">
+                      <img
+                        src={checkImg}
+                        alt="Tukar Reward"
+                        className="w-10 h-10 object-contain"
+                      />
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl font-bold mb-3 text-center text-white group-hover:text-emerald-300 transition-colors">
+                    Tukar Reward
+                  </h3>
+                  <p className="text-slate-400 leading-relaxed text-center text-sm group-hover:text-slate-300 transition-colors">
+                    Gunakan poin Anda untuk mendapatkan voucher, merchandise,
+                    dan hadiah eksklusif lainnya
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -18,8 +18,13 @@ import {
   Menu,
   X,
   Home as HomeIcon,
+  Info,
+  Grid,
+  Settings,
+  Phone,
 } from "lucide-react";
 import { getUserPoints, getLeaderboard } from "../utils/storage";
+import AvatarImg from "../assets/Generic_avatar.png?url";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -28,7 +33,7 @@ const Dashboard = () => {
   const [userData, setUserData] = useState({
     name: "User",
     email: "user@gmail.com",
-    avatar: "U",
+    avatar: AvatarImg,
     joinDate: "2024",
     totalWaste: 156,
     co2Saved: 234,
@@ -167,47 +172,63 @@ const Dashboard = () => {
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-2">
               <button
-                onClick={() => navigate("/home")}
+                onClick={() => {
+                  navigate("/home");
+                  setTimeout(
+                    () => window.scrollTo({ top: 0, behavior: "smooth" }),
+                    100
+                  );
+                }}
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
                 <HomeIcon className="w-4 h-4" />
                 Home
               </button>
               <button
-                onClick={() =>
-                  navigate("/input-sampah", { state: { from: "/dashboard" } })
-                }
+                onClick={() => {
+                  navigate("/home");
+                  setTimeout(() => {
+                    const element = document.getElementById("about");
+                    if (element) element.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
+                }}
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
-                <Upload className="w-4 h-4" />
-                Input Sampah
+                <Info className="w-4 h-4" />
+                About
               </button>
               <button
-                onClick={() =>
-                  navigate("/daily-poin", { state: { from: "/dashboard" } })
-                }
+                onClick={() => {
+                  navigate("/home");
+                  setTimeout(() => {
+                    const element = document.getElementById("layanan");
+                    if (element) element.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
+                }}
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
-                <TrendingUp className="w-4 h-4" />
-                Leaderboard
+                <Grid className="w-4 h-4" />
+                Layanan
               </button>
               <button
-                onClick={() =>
-                  navigate("/check-poin", { state: { from: "/dashboard" } })
-                }
+                onClick={() => {
+                  navigate("/home");
+                  setTimeout(() => {
+                    const element = document.getElementById("cara-kerja");
+                    if (element) element.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
+                }}
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
-                <Gift className="w-4 h-4" />
-                Tukar Poin
+                <Settings className="w-4 h-4" />
+                Cara Kerja
               </button>
               <button
-                onClick={() =>
-                  navigate("/jemput-sampah", { state: { from: "/dashboard" } })
-                }
+                onClick={() => navigate("/contact")}
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
-                <Truck className="w-4 h-4" />
-                Jemput Sampah
+                <Phone className="w-4 h-4" />
+                Contact
               </button>
             </div>
 
@@ -247,6 +268,10 @@ const Dashboard = () => {
                 onClick={() => {
                   navigate("/home");
                   setIsMobileMenuOpen(false);
+                  setTimeout(
+                    () => window.scrollTo({ top: 0, behavior: "smooth" }),
+                    100
+                  );
                 }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
@@ -255,43 +280,55 @@ const Dashboard = () => {
               </button>
               <button
                 onClick={() => {
-                  navigate("/input-sampah", { state: { from: "/dashboard" } });
+                  navigate("/home");
                   setIsMobileMenuOpen(false);
+                  setTimeout(() => {
+                    const element = document.getElementById("about");
+                    if (element) element.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
                 }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
-                <Upload className="w-5 h-5" />
-                Input Sampah
+                <Info className="w-5 h-5" />
+                About
               </button>
               <button
                 onClick={() => {
-                  navigate("/daily-poin", { state: { from: "/dashboard" } });
+                  navigate("/home");
                   setIsMobileMenuOpen(false);
+                  setTimeout(() => {
+                    const element = document.getElementById("layanan");
+                    if (element) element.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
                 }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
-                <TrendingUp className="w-5 h-5" />
-                Leaderboard
+                <Grid className="w-5 h-5" />
+                Layanan
               </button>
               <button
                 onClick={() => {
-                  navigate("/check-poin", { state: { from: "/dashboard" } });
+                  navigate("/home");
                   setIsMobileMenuOpen(false);
+                  setTimeout(() => {
+                    const element = document.getElementById("cara-kerja");
+                    if (element) element.scrollIntoView({ behavior: "smooth" });
+                  }, 100);
                 }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
-                <Gift className="w-5 h-5" />
-                Tukar Poin
+                <Settings className="w-5 h-5" />
+                Cara Kerja
               </button>
               <button
                 onClick={() => {
-                  navigate("/jemput-sampah", { state: { from: "/dashboard" } });
+                  navigate("/contact");
                   setIsMobileMenuOpen(false);
                 }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
-                <Truck className="w-5 h-5" />
-                Jemput Sampah
+                <Phone className="w-5 h-5" />
+                Contact
               </button>
             </div>
           </div>
@@ -305,9 +342,11 @@ const Dashboard = () => {
           <div className="bg-gradient-to-r from-emerald-500/20 to-emerald-600/10 border border-emerald-500/30 rounded-3xl p-8 backdrop-blur-xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl"></div>
             <div className="relative z-10 flex flex-col md:flex-row items-center gap-6">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-3xl font-bold shadow-2xl shadow-emerald-500/50">
-                {userData.avatar}
-              </div>
+              <img
+                src={userData.avatar}
+                alt="User Avatar"
+                className="w-20 h-20 rounded-2xl shadow-2xl shadow-emerald-500/50 object-cover border-2 border-emerald-500/30"
+              />
               <div className="flex-1 text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
                   Selamat Datang, {userData.name}! 👋
@@ -447,9 +486,11 @@ const Dashboard = () => {
 
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-2xl font-bold">
-                    {userData.avatar}
-                  </div>
+                  <img
+                    src={userData.avatar}
+                    alt="User Avatar"
+                    className="w-16 h-16 rounded-xl object-cover border-2 border-emerald-500/30"
+                  />
                   <div className="flex-1">
                     <h3 className="text-white font-semibold text-lg">
                       {userData.name}
