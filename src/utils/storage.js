@@ -1,9 +1,12 @@
 // localStorage utility for managing app state
 const STORAGE_KEYS = {
   USER_POINTS: "te-tome-user-points",
+  USER_WASTE: "te-tome-user-waste",
   REWARDS: "te-tome-rewards",
   LEADERBOARD: "te-tome-leaderboard",
   USER_RANK: "te-tome-user-rank",
+  RECENT_ACTIVITIES: "te-tome-recent-activities",
+  MONTHLY_CHALLENGE: "te-tome-monthly-challenge",
 };
 
 // Initialize default data
@@ -107,6 +110,20 @@ export const getUserPoints = () => {
   return points ? parseInt(points) : 5420;
 };
 
+// Get user's total waste in kg
+export const getUserWaste = () => {
+  const waste = localStorage.getItem(STORAGE_KEYS.USER_WASTE);
+  return waste ? parseFloat(waste) : 0;
+};
+
+// Add waste to user's total
+export const addUserWaste = (wasteKg) => {
+  const currentWaste = getUserWaste();
+  const newWaste = currentWaste + parseFloat(wasteKg);
+  localStorage.setItem(STORAGE_KEYS.USER_WASTE, newWaste.toString());
+  return newWaste;
+};
+
 // Set user points
 export const setUserPoints = (points) => {
   localStorage.setItem(STORAGE_KEYS.USER_POINTS, points.toString());
@@ -171,6 +188,99 @@ export const getLeaderboard = () => {
   return leaderboard ? JSON.parse(leaderboard) : DEFAULT_LEADERBOARD;
 };
 
+// Get leaderboard with user included if points are high enough
+export const getLeaderboardWithUser = () => {
+  const loggedInUser = localStorage.getItem("te-tome-user");
+  if (!loggedInUser) {
+    return DEFAULT_LEADERBOARD;
+  }
+
+  const user = JSON.parse(loggedInUser);
+  const userPoints = getUserPoints();
+  const baseLeaderboard = [...DEFAULT_LEADERBOARD];
+
+  // Create user entry
+  const userName = user.name || "You";
+  const userInitials =
+    userName
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2) || "YU";
+  const userEntry = {
+    name: userName,
+    points: userPoints,
+    avatar: userInitials,
+    trend: "+0",
+    isUser: true,
+  };
+
+  // Add user to leaderboard
+  baseLeaderboard.push(userEntry);
+
+  // Sort by points (highest first)
+  baseLeaderboard.sort((a, b) => b.points - a.points);
+
+  // Assign ranks
+  baseLeaderboard.forEach((entry, index) => {
+    entry.rank = index + 1;
+  });
+
+  // Return only top 10 or top 10 + user if user is outside top 10
+  const userRank = baseLeaderboard.findIndex((entry) => entry.isUser);
+
+  if (userRank < 10) {
+    // User is in top 10, return top 10
+    return baseLeaderboard.slice(0, 10);
+  } else {
+    // User is outside top 10, return top 10
+    return baseLeaderboard.slice(0, 10);
+  }
+};
+
+// Get user's rank in leaderboard
+export const getUserLeaderboardRank = () => {
+  const loggedInUser = localStorage.getItem("te-tome-user");
+  if (!loggedInUser) {
+    return { rank: null, points: 0 };
+  }
+
+  const userPoints = getUserPoints();
+  const baseLeaderboard = [...DEFAULT_LEADERBOARD];
+
+  // Add user to leaderboard
+  const user = JSON.parse(loggedInUser);
+  const userName = user.name || "You";
+  const userInitials =
+    userName
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2) || "YU";
+
+  baseLeaderboard.push({
+    name: userName,
+    points: userPoints,
+    avatar: userInitials,
+    isUser: true,
+  });
+
+  // Sort by points
+  baseLeaderboard.sort((a, b) => b.points - a.points);
+
+  // Find user rank
+  const userRank = baseLeaderboard.findIndex((entry) => entry.isUser) + 1;
+
+  return {
+    rank: userRank,
+    points: userPoints,
+    avatar: userInitials,
+    name: userName,
+  };
+};
+
 // Get user rank
 export const getUserRank = () => {
   const rank = localStorage.getItem(STORAGE_KEYS.USER_RANK);
@@ -194,6 +304,9 @@ export const initializeStorage = () => {
   if (!localStorage.getItem(STORAGE_KEYS.USER_POINTS)) {
     setUserPoints(5420);
   }
+  if (!localStorage.getItem(STORAGE_KEYS.USER_WASTE)) {
+    localStorage.setItem(STORAGE_KEYS.USER_WASTE, "54.2");
+  }
   if (!localStorage.getItem(STORAGE_KEYS.REWARDS)) {
     setRewards(DEFAULT_REWARDS);
   }
@@ -209,4 +322,84 @@ export const initializeStorage = () => {
       JSON.stringify(DEFAULT_USER_RANK)
     );
   }
+  if (!localStorage.getItem(STORAGE_KEYS.RECENT_ACTIVITIES)) {
+    localStorage.setItem(STORAGE_KEYS.RECENT_ACTIVITIES, JSON.stringify([]));
+  }
+  if (!localStorage.getItem(STORAGE_KEYS.MONTHLY_CHALLENGE)) {
+    localStorage.setItem(
+      STORAGE_KEYS.MONTHLY_CHALLENGE,
+      JSON.stringify({ plasticWaste: 0, target: 50 })
+    );
+  }
+};
+
+// Get recent activities
+export const getRecentActivities = () => {
+  const activities = localStorage.getItem(STORAGE_KEYS.RECENT_ACTIVITIES);
+  return activities ? JSON.parse(activities) : [];
+};
+
+// Add a new activity
+export const addActivity = (activity) => {
+  const activities = getRecentActivities();
+  const newActivity = {
+    id: Date.now(),
+    ...activity,
+    time: getTimeAgo(new Date()),
+    timestamp: Date.now(),
+  };
+
+  // Add to beginning of array (most recent first)
+  activities.unshift(newActivity);
+
+  // Keep only last 10 activities
+  const limitedActivities = activities.slice(0, 10);
+
+  localStorage.setItem(
+    STORAGE_KEYS.RECENT_ACTIVITIES,
+    JSON.stringify(limitedActivities)
+  );
+
+  return limitedActivities;
+};
+
+// Helper function to get relative time
+const getTimeAgo = (date) => {
+  const now = new Date();
+  const diffMs = now - date;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffMins < 1) return "Baru saja";
+  if (diffMins < 60) return `${diffMins} menit lalu`;
+  if (diffHours < 24) return `${diffHours} jam lalu`;
+  if (diffDays === 1) return "1 hari lalu";
+  if (diffDays < 7) return `${diffDays} hari lalu`;
+  return "Lebih dari seminggu lalu";
+};
+
+// Get monthly challenge progress
+export const getMonthlyChallenge = () => {
+  const challenge = localStorage.getItem(STORAGE_KEYS.MONTHLY_CHALLENGE);
+  return challenge ? JSON.parse(challenge) : { plasticWaste: 0, target: 50 };
+};
+
+// Update monthly challenge progress when plastic is added
+export const updateMonthlyChallenge = (category, wasteKg) => {
+  // Only track plastic categories
+  if (category.toLowerCase().includes("plastik")) {
+    const challenge = getMonthlyChallenge();
+    const newPlasticWaste = challenge.plasticWaste + parseFloat(wasteKg);
+    const updatedChallenge = {
+      ...challenge,
+      plasticWaste: newPlasticWaste,
+    };
+    localStorage.setItem(
+      STORAGE_KEYS.MONTHLY_CHALLENGE,
+      JSON.stringify(updatedChallenge)
+    );
+    return updatedChallenge;
+  }
+  return getMonthlyChallenge();
 };

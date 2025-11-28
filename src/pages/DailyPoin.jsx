@@ -1,10 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Trophy, Medal, Award, TrendingUp, Crown } from "lucide-react";
+import {
+  getUserPoints,
+  getLeaderboardWithUser,
+  getUserLeaderboardRank,
+} from "../utils/storage";
 
 const DailyPoin = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [userPoints, setUserPoints] = useState(0);
+  const [leaderboardData, setLeaderboardData] = useState([]);
+  const [userRankInfo, setUserRankInfo] = useState(null);
+
+  useEffect(() => {
+    setUserPoints(getUserPoints());
+    setLeaderboardData(getLeaderboardWithUser());
+    setUserRankInfo(getUserLeaderboardRank());
+  }, []);
 
   const handleBack = () => {
     // Check if came from dashboard
@@ -14,50 +28,6 @@ const DailyPoin = () => {
       navigate("/home");
     }
   };
-
-  // Dummy leaderboard data
-  const leaderboardData = [
-    {
-      rank: 1,
-      name: "Budi Santoso",
-      points: 15420,
-      avatar: "BS",
-      trend: "+320",
-    },
-    { rank: 2, name: "Ani Wijaya", points: 14850, avatar: "AW", trend: "+280" },
-    { rank: 3, name: "Citra Dewi", points: 13990, avatar: "CD", trend: "+245" },
-    {
-      rank: 4,
-      name: "Doni Prasetyo",
-      points: 12750,
-      avatar: "DP",
-      trend: "+198",
-    },
-    { rank: 5, name: "Eka Putri", points: 11890, avatar: "EP", trend: "+176" },
-    {
-      rank: 6,
-      name: "Fajar Rahman",
-      points: 10950,
-      avatar: "FR",
-      trend: "+165",
-    },
-    {
-      rank: 7,
-      name: "Gita Lestari",
-      points: 9870,
-      avatar: "GL",
-      trend: "+142",
-    },
-    {
-      rank: 8,
-      name: "Hadi Kurniawan",
-      points: 8920,
-      avatar: "HK",
-      trend: "+128",
-    },
-    { rank: 9, name: "Indah Sari", points: 7850, avatar: "IS", trend: "+115" },
-    { rank: 10, name: "Joko Widodo", points: 6980, avatar: "JW", trend: "+98" },
-  ];
 
   const getRankIcon = (rank) => {
     switch (rank) {
@@ -187,7 +157,9 @@ const DailyPoin = () => {
                 key={user.rank}
                 className={`group relative bg-gradient-to-r ${getRankColor(
                   user.rank
-                )} border rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:scale-[1.02] cursor-pointer`}
+                )} border rounded-2xl p-4 sm:p-5 transition-all duration-300 hover:scale-[1.02] cursor-pointer ${
+                  user.isUser ? "ring-2 ring-purple-500/50" : ""
+                }`}
               >
                 <div className="flex items-center gap-3 sm:gap-4">
                   {/* Rank */}
@@ -256,31 +228,35 @@ const DailyPoin = () => {
         </div>
 
         {/* Your Rank Card */}
-        <div className="mt-6 sm:mt-8 bg-gradient-to-r from-purple-500/20 to-purple-600/10 border border-purple-500/30 rounded-2xl p-4 sm:p-6 backdrop-blur-xl">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-3 sm:gap-4 min-w-0">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-sm sm:text-base font-bold text-white shadow-lg flex-shrink-0">
-                YU
+        {userRankInfo && (
+          <div className="mt-6 sm:mt-8 bg-gradient-to-r from-purple-500/20 to-purple-600/10 border border-purple-500/30 rounded-2xl p-4 sm:p-6 backdrop-blur-xl">
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-sm sm:text-base font-bold text-white shadow-lg flex-shrink-0">
+                  {userRankInfo.avatar}
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-white font-semibold text-base sm:text-lg">
+                    Your Rank
+                  </h3>
+                  <p className="text-slate-400 text-xs sm:text-sm truncate">
+                    {userRankInfo.rank <= 10
+                      ? "🎉 You're in Top 10!"
+                      : "Keep collecting points!"}
+                  </p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <h3 className="text-white font-semibold text-base sm:text-lg">
-                  Your Rank
-                </h3>
-                <p className="text-slate-400 text-xs sm:text-sm truncate">
-                  Keep collecting points!
-                </p>
-              </div>
-            </div>
-            <div className="text-right flex-shrink-0">
-              <div className="text-2xl sm:text-3xl font-bold text-white">
-                #24
-              </div>
-              <div className="text-slate-400 text-xs sm:text-sm">
-                4,250 points
+              <div className="text-right flex-shrink-0">
+                <div className="text-2xl sm:text-3xl font-bold text-white">
+                  #{userRankInfo.rank}
+                </div>
+                <div className="text-slate-400 text-xs sm:text-sm">
+                  {userPoints.toLocaleString()} points
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

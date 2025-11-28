@@ -7,7 +7,13 @@ import {
   CheckCircle,
   Camera,
 } from "lucide-react";
-import { addUserPoints, updateUserRank } from "../utils/storage";
+import {
+  addUserPoints,
+  updateUserRank,
+  addUserWaste,
+  addActivity,
+  updateMonthlyChallenge,
+} from "../utils/storage";
 
 const InputSampah = () => {
   const navigate = useNavigate();
@@ -50,9 +56,22 @@ const InputSampah = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const pointsEarned = Math.floor(parseFloat(weight) * 100);
+    const wasteAmount = parseFloat(weight);
+    const pointsEarned = Math.floor(wasteAmount * 100);
     addUserPoints(pointsEarned);
     updateUserRank(pointsEarned);
+    addUserWaste(wasteAmount);
+    updateMonthlyChallenge(category, wasteAmount);
+
+    // Log activity
+    addActivity({
+      action: `Input Sampah ${category}`,
+      points: `+${pointsEarned} poin`,
+      type: "input",
+      icon: "Upload",
+      color: "emerald",
+    });
+
     setShowSuccess(true);
     setTimeout(() => {
       setShowSuccess(false);

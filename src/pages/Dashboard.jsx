@@ -23,7 +23,13 @@ import {
   Settings,
   Phone,
 } from "lucide-react";
-import { getUserPoints, getLeaderboard } from "../utils/storage";
+import {
+  getUserPoints,
+  getUserWaste,
+  getUserLeaderboardRank,
+  getRecentActivities,
+  getMonthlyChallenge,
+} from "../utils/storage";
 import AvatarImg from "../assets/Generic_avatar2.png?url";
 
 function Dashboard() {
@@ -35,8 +41,13 @@ function Dashboard() {
     email: "user@gmail.com",
     avatar: AvatarImg,
     joinDate: "2024",
-    totalWaste: 156,
-    co2Saved: 234,
+    totalWaste: 0,
+  });
+  const [userRank, setUserRank] = useState("#24");
+  const [recentActivities, setRecentActivities] = useState([]);
+  const [monthlyChallenge, setMonthlyChallenge] = useState({
+    plasticWaste: 0,
+    target: 50,
   });
 
   useEffect(() => {
@@ -48,12 +59,21 @@ function Dashboard() {
     }
 
     const user = JSON.parse(loggedInUser);
+    const waste = getUserWaste();
+    const rankInfo = getUserLeaderboardRank();
+    const activities = getRecentActivities();
+    const challenge = getMonthlyChallenge();
+
     setUserData({
       ...userData,
       name: user.name || "User",
       email: user.email,
+      totalWaste: waste,
     });
     setUserPoints(getUserPoints());
+    setUserRank(`#${rankInfo.rank}`);
+    setRecentActivities(activities.slice(0, 3)); // Show only 3 most recent
+    setMonthlyChallenge(challenge);
   }, []);
 
   const handleLogout = () => {
@@ -96,33 +116,6 @@ function Dashboard() {
     },
   ];
 
-  const recentActivities = [
-    {
-      id: 1,
-      action: "Input Sampah Plastik",
-      points: "+50 poin",
-      time: "2 jam lalu",
-      icon: Upload,
-      color: "emerald",
-    },
-    {
-      id: 2,
-      action: "Tukar Voucher 50K",
-      points: "-500 poin",
-      time: "1 hari lalu",
-      icon: Gift,
-      color: "purple",
-    },
-    {
-      id: 3,
-      action: "Input Sampah Botol",
-      points: "+75 poin",
-      time: "2 hari lalu",
-      icon: Upload,
-      color: "emerald",
-    },
-  ];
-
   const stats = [
     {
       label: "Total Poin",
@@ -139,15 +132,8 @@ function Dashboard() {
       gradient: "from-emerald-500 to-emerald-600",
     },
     {
-      label: "CO₂ Dikurangi",
-      value: `${userData.co2Saved} kg`,
-      icon: Target,
-      color: "blue",
-      gradient: "from-blue-500 to-blue-600",
-    },
-    {
       label: "Peringkat",
-      value: "#24",
+      value: userRank,
       icon: Trophy,
       color: "orange",
       gradient: "from-orange-500 to-orange-600",
@@ -178,7 +164,7 @@ function Dashboard() {
                     () => window.scrollTo({ top: 0, behavior: "smooth" }),
                     100
                   );
-                } }
+                }}
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
                 <HomeIcon className="w-4 h-4" />
@@ -191,7 +177,7 @@ function Dashboard() {
                     const element = document.getElementById("about");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                } }
+                }}
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
                 <Info className="w-4 h-4" />
@@ -204,7 +190,7 @@ function Dashboard() {
                     const element = document.getElementById("layanan");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                } }
+                }}
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
                 <Grid className="w-4 h-4" />
@@ -217,7 +203,7 @@ function Dashboard() {
                     const element = document.getElementById("cara-kerja");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                } }
+                }}
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
                 <Settings className="w-4 h-4" />
@@ -272,7 +258,7 @@ function Dashboard() {
                     () => window.scrollTo({ top: 0, behavior: "smooth" }),
                     100
                   );
-                } }
+                }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
                 <HomeIcon className="w-5 h-5" />
@@ -286,7 +272,7 @@ function Dashboard() {
                     const element = document.getElementById("about");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                } }
+                }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
                 <Info className="w-5 h-5" />
@@ -300,7 +286,7 @@ function Dashboard() {
                     const element = document.getElementById("layanan");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                } }
+                }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
                 <Grid className="w-5 h-5" />
@@ -314,7 +300,7 @@ function Dashboard() {
                     const element = document.getElementById("cara-kerja");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                } }
+                }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
                 <Settings className="w-5 h-5" />
@@ -324,7 +310,7 @@ function Dashboard() {
                 onClick={() => {
                   navigate("/contact");
                   setIsMobileMenuOpen(false);
-                } }
+                }}
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
                 <Phone className="w-5 h-5" />
@@ -345,7 +331,8 @@ function Dashboard() {
               <img
                 src={userData.avatar}
                 alt="User Avatar"
-                className="w-20 h-20 rounded-2xl shadow-2xl shadow-emerald-500/50 object-cover border-2 border-emerald-500/30" />
+                className="w-20 h-20 rounded-2xl shadow-2xl shadow-emerald-500/50 object-cover border-2 border-emerald-500/30"
+              />
               <div className="flex-1 text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
                   Selamat Datang, {userData.name}! 👋
@@ -369,7 +356,7 @@ function Dashboard() {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           {stats.map((stat, index) => (
             <div
               key={index}
@@ -403,7 +390,9 @@ function Dashboard() {
                 {quickActions.map((action, index) => (
                   <button
                     key={index}
-                    onClick={() => navigate(action.path, { state: { from: "/dashboard" } })}
+                    onClick={() =>
+                      navigate(action.path, { state: { from: "/dashboard" } })
+                    }
                     className={`group relative bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50 hover:border-${action.color}-500/50 rounded-2xl p-6 text-left transition-all duration-300 hover:scale-[1.02] overflow-hidden`}
                   >
                     <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-2xl"></div>
@@ -441,16 +430,24 @@ function Dashboard() {
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-slate-300">
-                      Input 50kg Sampah Plastik
+                      Input {monthlyChallenge.target}kg Sampah Plastik
                     </span>
                     <span className="text-emerald-400 font-semibold">
-                      32/50 kg
+                      {monthlyChallenge.plasticWaste.toFixed(1)}/
+                      {monthlyChallenge.target} kg
                     </span>
                   </div>
                   <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full transition-all duration-500"
-                      style={{ width: "64%" }}
+                      style={{
+                        width: `${Math.min(
+                          (monthlyChallenge.plasticWaste /
+                            monthlyChallenge.target) *
+                            100,
+                          100
+                        )}%`,
+                      }}
                     ></div>
                   </div>
                 </div>
@@ -486,7 +483,8 @@ function Dashboard() {
                   <img
                     src={userData.avatar}
                     alt="User Avatar"
-                    className="w-16 h-16 rounded-xl object-cover border-2 border-emerald-500/30" />
+                    className="w-16 h-16 rounded-xl object-cover border-2 border-emerald-500/30"
+                  />
                   <div className="flex-1">
                     <h3 className="text-white font-semibold text-lg">
                       {userData.name}
@@ -528,34 +526,59 @@ function Dashboard() {
               </div>
 
               <div className="space-y-4">
-                {recentActivities.map((activity) => (
-                  <div
-                    key={activity.id}
-                    className="flex items-start gap-3 p-3 bg-slate-800/50 rounded-xl hover:bg-slate-800 transition-all duration-300"
-                  >
-                    <div
-                      className={`p-2 rounded-lg bg-${activity.color}-500/20`}
-                    >
-                      <activity.icon
-                        className={`w-4 h-4 text-${activity.color}-400`} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white text-sm font-medium truncate">
-                        {activity.action}
-                      </p>
-                      <p className="text-slate-400 text-xs mt-1">
-                        {activity.time}
-                      </p>
-                    </div>
-                    <span
-                      className={`text-sm font-semibold ${activity.points.startsWith("+")
-                          ? "text-emerald-400"
-                          : "text-red-400"}`}
-                    >
-                      {activity.points}
-                    </span>
+                {recentActivities.length > 0 ? (
+                  recentActivities.map((activity) => {
+                    // Map icon name to icon component
+                    const IconComponent =
+                      activity.icon === "Upload"
+                        ? Upload
+                        : activity.icon === "Gift"
+                        ? Gift
+                        : Truck;
+
+                    return (
+                      <div
+                        key={activity.id}
+                        className="flex items-start gap-3 p-3 bg-slate-800/50 rounded-xl hover:bg-slate-800 transition-all duration-300"
+                      >
+                        <div
+                          className={`p-2 rounded-lg bg-${activity.color}-500/20`}
+                        >
+                          <IconComponent
+                            className={`w-4 h-4 text-${activity.color}-400`}
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white text-sm font-medium truncate">
+                            {activity.action}
+                          </p>
+                          <p className="text-slate-400 text-xs mt-1">
+                            {activity.time}
+                          </p>
+                        </div>
+                        <span
+                          className={`text-sm font-semibold ${
+                            activity.points.startsWith("+")
+                              ? "text-emerald-400"
+                              : "text-red-400"
+                          }`}
+                        >
+                          {activity.points}
+                        </span>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div className="text-center py-8">
+                    <Activity className="w-12 h-12 text-slate-600 mx-auto mb-3" />
+                    <p className="text-slate-400 text-sm">
+                      Belum ada aktivitas
+                    </p>
+                    <p className="text-slate-500 text-xs mt-1">
+                      Mulai input sampah untuk melihat aktivitas
+                    </p>
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>

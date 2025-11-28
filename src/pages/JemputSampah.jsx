@@ -9,6 +9,7 @@ import {
   Home,
   CheckCircle,
 } from "lucide-react";
+import { addActivity } from "../utils/storage";
 
 const JemputSampah = () => {
   const navigate = useNavigate();
@@ -60,6 +61,19 @@ const JemputSampah = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Log activity
+    const estimatedPoints = Math.floor(
+      parseFloat(formData.estimatedWeight) * 100
+    );
+    addActivity({
+      action: `Jadwalkan Jemput ${formData.wasteType}`,
+      points: `+${estimatedPoints} poin`,
+      type: "schedule",
+      icon: "Truck",
+      color: "blue",
+    });
+
     setShowSuccess(true);
     setTimeout(() => {
       setShowSuccess(false);

@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Gift, Coins, Star, ShoppingBag, CheckCircle, X } from "lucide-react";
-import { getUserPoints, getRewards, redeemReward } from "../utils/storage";
+import {
+  getUserPoints,
+  getRewards,
+  redeemReward,
+  addActivity,
+} from "../utils/storage";
 
 const CheckPoin = () => {
   const navigate = useNavigate();
@@ -115,6 +120,15 @@ const CheckPoin = () => {
         setShowConfirmModal(false);
         setShowModal(true);
         refreshData();
+
+        // Log activity
+        addActivity({
+          action: `Tukar ${selectedReward.name}`,
+          points: `-${selectedReward.points} poin`,
+          type: "redeem",
+          icon: "Gift",
+          color: "purple",
+        });
 
         // Show toast notification
         setShowToast(true);
