@@ -12,7 +12,7 @@ import {
   ChevronDown,
   LogOut,
 } from "lucide-react";
-import AvatarImg from "../assets/Generic_avatar.png?url";
+import AvatarImg from "../assets/Generic_avatar2.png?url";
 
 const Navigation = ({ onLoginClick }) => {
   const navigate = useNavigate();

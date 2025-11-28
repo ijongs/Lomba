@@ -24,9 +24,9 @@ import {
   Phone,
 } from "lucide-react";
 import { getUserPoints, getLeaderboard } from "../utils/storage";
-import AvatarImg from "../assets/Generic_avatar.png?url";
+import AvatarImg from "../assets/Generic_avatar2.png?url";
 
-const Dashboard = () => {
+function Dashboard() {
   const navigate = useNavigate();
   const [userPoints, setUserPoints] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -178,7 +178,7 @@ const Dashboard = () => {
                     () => window.scrollTo({ top: 0, behavior: "smooth" }),
                     100
                   );
-                }}
+                } }
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
                 <HomeIcon className="w-4 h-4" />
@@ -191,7 +191,7 @@ const Dashboard = () => {
                     const element = document.getElementById("about");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                }}
+                } }
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
                 <Info className="w-4 h-4" />
@@ -204,7 +204,7 @@ const Dashboard = () => {
                     const element = document.getElementById("layanan");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                }}
+                } }
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
                 <Grid className="w-4 h-4" />
@@ -217,7 +217,7 @@ const Dashboard = () => {
                     const element = document.getElementById("cara-kerja");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                }}
+                } }
                 className="px-4 py-2 text-slate-300 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300 flex items-center gap-2"
               >
                 <Settings className="w-4 h-4" />
@@ -272,7 +272,7 @@ const Dashboard = () => {
                     () => window.scrollTo({ top: 0, behavior: "smooth" }),
                     100
                   );
-                }}
+                } }
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
                 <HomeIcon className="w-5 h-5" />
@@ -286,7 +286,7 @@ const Dashboard = () => {
                     const element = document.getElementById("about");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                }}
+                } }
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
                 <Info className="w-5 h-5" />
@@ -300,7 +300,7 @@ const Dashboard = () => {
                     const element = document.getElementById("layanan");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                }}
+                } }
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
                 <Grid className="w-5 h-5" />
@@ -314,7 +314,7 @@ const Dashboard = () => {
                     const element = document.getElementById("cara-kerja");
                     if (element) element.scrollIntoView({ behavior: "smooth" });
                   }, 100);
-                }}
+                } }
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
                 <Settings className="w-5 h-5" />
@@ -324,7 +324,7 @@ const Dashboard = () => {
                 onClick={() => {
                   navigate("/contact");
                   setIsMobileMenuOpen(false);
-                }}
+                } }
                 className="w-full flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white hover:bg-emerald-500/10 rounded-xl transition-all duration-300"
               >
                 <Phone className="w-5 h-5" />
@@ -345,8 +345,7 @@ const Dashboard = () => {
               <img
                 src={userData.avatar}
                 alt="User Avatar"
-                className="w-20 h-20 rounded-2xl shadow-2xl shadow-emerald-500/50 object-cover border-2 border-emerald-500/30"
-              />
+                className="w-20 h-20 rounded-2xl shadow-2xl shadow-emerald-500/50 object-cover border-2 border-emerald-500/30" />
               <div className="flex-1 text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
                   Selamat Datang, {userData.name}! 👋
@@ -404,9 +403,7 @@ const Dashboard = () => {
                 {quickActions.map((action, index) => (
                   <button
                     key={index}
-                    onClick={() =>
-                      navigate(action.path, { state: { from: "/dashboard" } })
-                    }
+                    onClick={() => navigate(action.path, { state: { from: "/dashboard" } })}
                     className={`group relative bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50 hover:border-${action.color}-500/50 rounded-2xl p-6 text-left transition-all duration-300 hover:scale-[1.02] overflow-hidden`}
                   >
                     <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-2xl"></div>
@@ -489,8 +486,7 @@ const Dashboard = () => {
                   <img
                     src={userData.avatar}
                     alt="User Avatar"
-                    className="w-16 h-16 rounded-xl object-cover border-2 border-emerald-500/30"
-                  />
+                    className="w-16 h-16 rounded-xl object-cover border-2 border-emerald-500/30" />
                   <div className="flex-1">
                     <h3 className="text-white font-semibold text-lg">
                       {userData.name}
@@ -541,8 +537,7 @@ const Dashboard = () => {
                       className={`p-2 rounded-lg bg-${activity.color}-500/20`}
                     >
                       <activity.icon
-                        className={`w-4 h-4 text-${activity.color}-400`}
-                      />
+                        className={`w-4 h-4 text-${activity.color}-400`} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-white text-sm font-medium truncate">
@@ -553,11 +548,9 @@ const Dashboard = () => {
                       </p>
                     </div>
                     <span
-                      className={`text-sm font-semibold ${
-                        activity.points.startsWith("+")
+                      className={`text-sm font-semibold ${activity.points.startsWith("+")
                           ? "text-emerald-400"
-                          : "text-red-400"
-                      }`}
+                          : "text-red-400"}`}
                     >
                       {activity.points}
                     </span>
@@ -570,6 +563,6 @@ const Dashboard = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Dashboard;
